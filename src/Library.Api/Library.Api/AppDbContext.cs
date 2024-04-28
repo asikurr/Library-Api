@@ -10,19 +10,20 @@ namespace Library.Api
         {
 
         }
-
-        public AppDbContext()
-        {
-        }
-
+        public AppDbContext() { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Authors>()
                         .HasKey(a => a.AuthorID)
                         .HasName("PK_Authors");
 
+            modelBuilder.Entity<Members>()
+                        .HasKey(a => a.MemberID)
+                        .HasName("PK_Members");
+
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Authors> Authors { get; set; }
+        public DbSet<Members> Members { get; set; }
     }
 }
