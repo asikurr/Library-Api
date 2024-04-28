@@ -20,10 +20,15 @@ namespace Library.Api
             modelBuilder.Entity<Members>()
                         .HasKey(a => a.MemberID)
                         .HasName("PK_Members");
+            modelBuilder.Entity<Books>()
+                        .HasKey(a => a.BookID)
+                        .HasName("PK_Books");
+        
 
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Authors> Authors { get; set; }
         public DbSet<Members> Members { get; set; }
+        public DbSet<Books> Books { get; set; }
     }
 }
