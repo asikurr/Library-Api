@@ -24,7 +24,12 @@ namespace Library.Api.Repositories
 
         public void DeleteBookById(int id)
         {
-            throw new NotImplementedException();
+            var data = GetBookById(id);
+            if (data is not null)
+            {
+                _context.Books.Remove(data);
+                _context.SaveChanges();
+            }
         }
 
         public IList<Books> GetAllBooks()
@@ -34,12 +39,22 @@ namespace Library.Api.Repositories
 
         public Books GetBookById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Books.Where(c => c.BookID == id).FirstOrDefault();
         }
 
         public void UpdateBook(int id, Books books)
         {
-            throw new NotImplementedException();
+            var bookExist = GetBookById(id);
+            if (bookExist is not null)
+            {
+                bookExist.Title = books.Title;
+                bookExist.ISBN = books.ISBN;
+                bookExist.AuthorID = books.AuthorID;
+                bookExist.PublishedDate = books.PublishedDate;
+                bookExist.AvailableCopies = books.AvailableCopies;
+                bookExist.TotalCopies = books.TotalCopies;
+                _context.SaveChanges();
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Library.Web.Controllers
         {
             List<BookViewModel> bookList = new List<BookViewModel>();
             var response = _httpClient
-                .GetAsync($"{_httpClient.BaseAddress}/Book/Get").Result;
+                .GetAsync($"{_httpClient.BaseAddress}/Books/Get").Result;
             if (response.IsSuccessStatusCode)
             {
                 var bookData = response.Content.ReadAsStringAsync().Result;
@@ -45,7 +45,7 @@ namespace Library.Web.Controllers
                 var strData = new StringContent(inpData, Encoding.UTF8,
                     "application/json");
                 var response = _httpClient
-                    .PostAsync($"{_httpClient.BaseAddress}/Book/Post", strData).Result;
+                    .PostAsync($"{_httpClient.BaseAddress}/Books/Post", strData).Result;
                 if (response.IsSuccessStatusCode)
                 {
                     TempData["success"] = "Book Created Success.";
@@ -73,5 +73,104 @@ namespace Library.Web.Controllers
             }
             ViewBag.Authors = new SelectList(authList, "AuthorID", "AuthorName");
         }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            try
+            {
+                BookViewModel bookData = new BookViewModel();
+                var response = _httpClient
+                    .GetAsync($"{_httpClient.BaseAddress}/Books/Get/{id}").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = response.Content.ReadAsStringAsync().Result;
+                    bookData = JsonConvert.DeserializeObject<BookViewModel>(data);
+                }
+                LoadAuthorData();
+                return View(bookData);
+
+            }
+            catch (Exception ex)
+            {
+
+                TempData["error"] = $"Something went wrong. {ex.Message}";
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Edit(BookViewModel model)
+        {
+            try
+            {
+                var data = JsonConvert.SerializeObject(model);
+                var content = new StringContent(data, Encoding.UTF8,
+                    "application/json");
+                var response = _httpClient
+                    .PutAsync($"{_httpClient.BaseAddress}/Books/Put", content).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["success"] = "Book Update Success.";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                TempData["error"] = $"Book Update Failed. {ex.Message}";
+                return View();
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                BookViewModel bookData = new BookViewModel();
+                var response = _httpClient
+                    .GetAsync($"{_httpClient.BaseAddress}/Books/Get/{id}").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = response.Content.ReadAsStringAsync().Result;
+                    bookData = JsonConvert.DeserializeObject<BookViewModel>(data);
+                }
+                LoadAuthorData();
+                return View(bookData);
+            }
+            catch (Exception ex)
+            {
+
+                TempData["error"] = $"Book Data not found. {ex.Message}";
+                return View();
+            }
+
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult ConfirmDelete(int id)
+        {
+            try
+            {
+                var response = _httpClient
+                       .DeleteAsync($"{_httpClient.BaseAddress}/Books/Delete/{id}").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["success"] = "Book Deleted Success.";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = $"Operation Failed. {ex.Message}";
+                return View();
+            }
+            return View();
+        }
+
+
     }
 }

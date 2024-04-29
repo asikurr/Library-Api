@@ -57,8 +57,6 @@ namespace Library.Api.Repositories
                     authExist.AuthorBio = authors.AuthorBio;
                     _context.SaveChanges();
                 }
-               
-            
         }
     }
 }
