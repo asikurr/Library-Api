@@ -7,10 +7,10 @@ namespace Library.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class MemberController : ControllerBase
+    public class MembersController : ControllerBase
     {
         private readonly IMemberRepository _membRepo;
-        public MemberController(IMemberRepository membRepo)
+        public MembersController(IMemberRepository membRepo)
         {
             _membRepo = membRepo;
         }

@@ -21,7 +21,7 @@ namespace Library.Web.Controllers
         {
             List<MemberViewModel> memberList = new List<MemberViewModel>();
             var response = _httpClient
-                .GetAsync($"{_httpClient.BaseAddress}/Member/Get").Result;
+                .GetAsync($"{_httpClient.BaseAddress}/Members/Get").Result;
             if (response.IsSuccessStatusCode)
             {
                 var membData = response.Content.ReadAsStringAsync().Result;
@@ -43,7 +43,7 @@ namespace Library.Web.Controllers
                 var strData = new StringContent(inpData, Encoding.UTF8,
                     "application/json");
                 var response = _httpClient
-                    .PostAsync($"{_httpClient.BaseAddress}/Member/Post", strData).Result;
+                    .PostAsync($"{_httpClient.BaseAddress}/Members/Post", strData).Result;
                 if (response.IsSuccessStatusCode)
                 {
                     TempData["success"] = "Member Created Success.";
@@ -65,7 +65,7 @@ namespace Library.Web.Controllers
             {
                 MemberViewModel memberData = new MemberViewModel();
                 var response = _httpClient
-                    .GetAsync($"{_httpClient.BaseAddress}/Member/Get/{id}").Result;
+                    .GetAsync($"{_httpClient.BaseAddress}/Members/Get/{id}").Result;
                 if (response.IsSuccessStatusCode)
                 {
                     var data = response.Content.ReadAsStringAsync().Result;
@@ -91,7 +91,7 @@ namespace Library.Web.Controllers
                 var content = new StringContent(data, Encoding.UTF8,
                     "application/json");
                 var response = _httpClient
-                    .PutAsync($"{_httpClient.BaseAddress}/Member/Put", content).Result;
+                    .PutAsync($"{_httpClient.BaseAddress}/Members/Put", content).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -115,7 +115,7 @@ namespace Library.Web.Controllers
             {
                 MemberViewModel memberData = new MemberViewModel();
                 var response = _httpClient
-                    .GetAsync($"{_httpClient.BaseAddress}/Member/Get/{id}").Result;
+                    .GetAsync($"{_httpClient.BaseAddress}/Members/Get/{id}").Result;
                 if (response.IsSuccessStatusCode)
                 {
                     var data = response.Content.ReadAsStringAsync().Result;
@@ -138,7 +138,7 @@ namespace Library.Web.Controllers
             try
             {
                 var response = _httpClient
-                       .DeleteAsync($"{_httpClient.BaseAddress}/Member/Delete/{id}").Result;
+                       .DeleteAsync($"{_httpClient.BaseAddress}/Members/Delete/{id}").Result;
                 if (response.IsSuccessStatusCode)
                 {
                     TempData["success"] = "Member Deleted Success.";

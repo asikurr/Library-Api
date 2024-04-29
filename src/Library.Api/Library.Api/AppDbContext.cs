@@ -23,12 +23,16 @@ namespace Library.Api
             modelBuilder.Entity<Books>()
                         .HasKey(a => a.BookID)
                         .HasName("PK_Books");
-        
+            modelBuilder.Entity<BorrowedBooks>()
+                        .HasKey(a => a.BorrowID)
+                        .HasName("PK_BorrowedBooks");
+
 
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Authors> Authors { get; set; }
         public DbSet<Members> Members { get; set; }
         public DbSet<Books> Books { get; set; }
+        public DbSet<BorrowedBooks> BorrowedBooks { get; set; }
     }
 }

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Library.Web.Models.BorrowBookViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3>Borrored Book Information</h3>
+
+<p>
+    <a class="btn btn-success" asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BorrowID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BorrowDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Members)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Books)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReturnDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BorrowID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BorrowDate)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Members.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Books.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReturnDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                    <a asp-controller="BorrowBook" asp-action="Edit" asp-route-id="@item.BorrowID" class="btn btn-sm btn-success">Edit</a> |
+                    <a asp-controller="BorrowBook" asp-action="Delete" asp-route-id="@item.BorrowID" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
